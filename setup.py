@@ -15,7 +15,7 @@ setup(
     name="rtcneo",
     version="1.0.0",
     author="Federico Zahariev",
-    author_email="",
+    author_email="fzahari@iastate.edu",
     description="Real-Time constrained Nuclear-Electronic Orbital (RT-cNEO) dynamics",
     long_description=long_description,
     long_description_content_type="text/markdown",

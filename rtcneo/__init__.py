@@ -23,6 +23,7 @@ For RT-NEO vs RT-cNEO comparison:
 
 __version__ = "1.0.0"
 __author__ = "Federico Zahariev"
+__email__ = "fzahari@iastate.edu"
 
 # Initialize environment FIRST
 from .utils.environment import initialize_environment

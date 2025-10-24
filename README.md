@@ -349,6 +349,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🎉 Acknowledgments
 
+This material is based upon work supported by the National Science Foundation under Grant No. OSI-2435255.
+
 - **PySCF-NEO**: Yang's group for the NEO implementation
 - **RT-NEO**: Hammes-Schiffer group for the original method
 - **cNEO**: Yang group for the constrained NEO method
