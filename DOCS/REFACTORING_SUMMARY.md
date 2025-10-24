@@ -89,7 +89,6 @@ pip install -e .
 
 **Organized Existing Docs**:
 - Moved `RT_CNEO_COMPLETE.md` → `docs/theory/`
-- Moved `CLAUDE.md` → `docs/`
 - Moved PDFs → `docs/theory/papers/`
 
 ### 6. Cleanup ✅
@@ -204,7 +203,6 @@ RT_cNEO/
 ├── ~50 debug/test files
 ├── DOCS/ (theory papers)
 ├── README.md
-├── CLAUDE.md
 ├── RT_CNEO_COMPLETE.md
 └── ... many .log, .dat, .png files
 ```
@@ -227,7 +225,6 @@ RT_cNEO/
 │   ├── theory/
 │   │   ├── RT_CNEO_COMPLETE.md
 │   │   └── papers/
-│   ├── CLAUDE.md
 │   └── guides/
 ├── tests/                     # Test suite (placeholder)
 ├── archive/                   # ⭐ Cleaned up!

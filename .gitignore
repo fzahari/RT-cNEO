@@ -68,10 +68,6 @@ rtcneo_*.csv
 # Archive
 archive/
 
-# AI-related files (excluded from repository)
-CLAUDE.md
-**/CLAUDE.md
-
 # PySCF cache
 .pyscf_cache/
 
