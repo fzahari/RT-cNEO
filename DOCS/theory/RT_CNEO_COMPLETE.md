@@ -9,7 +9,7 @@
 
 ## TABLE OF CONTENTS
 
-1. [Executive Summary](#executive-summary)
+1. [Overview](#overview)
 2. [What is RT-cNEO?](#what-is-rt-cneo)
 3. [Comparison with Related Methods](#comparison-with-related-methods)
 4. [Theoretical Foundation](#theoretical-foundation)
@@ -24,7 +24,7 @@
 
 ---
 
-## EXECUTIVE SUMMARY
+## OVERVIEW
 
 ### What is RT-cNEO?
 
@@ -49,28 +49,28 @@
 
 **YES - Core mechanism is theoretically sound**
 
-✅ **Correct**:
+Correct:
 - Adds constraint as potential (not energy minimization!)
 - Preserves quantum character (excited states survive)
 - Implements feedback control for trajectory guidance
 - Unitary quantum evolution
 
-⚠️ **Approximations/Issues**:
+Approximations/Issues:
 - Static Fock matrix (should be time-dependent)
-- Constraint force formula: **✅ DERIVED** (see Section 5)
+- Constraint force formula: DERIVED (see Section 5)
 - Requires external potential to drive dynamics
 
-### Critical Insight: No Energy Minimization!
+### Critical Insight: No Energy Minimization
 
 **WRONG approach**: Minimize energy at each timestep
 ```
-Result: Immediate collapse to ground state ✗
+Result: Immediate collapse to ground state
 ```
 
 **CORRECT approach**: Add constraint potential to Hamiltonian
 ```
 H = H₀ + f_constraint · R̂ + V_external(t)
-Result: Quantum evolution with trajectory guidance ✓
+Result: Quantum evolution with trajectory guidance
 ```
 
 ---
@@ -259,8 +259,7 @@ Extract smooth classical-like trajectory from quantum motion while preserving qu
 ```
 t = 0:    |Ψ⟩ = excited state, E = E_n
 t = Δt:   minimize E → |Ψ⟩ = ground state, E = E_0
-Result:   IMMEDIATE COLLAPSE ✗
-```
+Result:   IMMEDIATE COLLAPSE ```
 
 **This would destroy all quantum dynamics!**
 
@@ -374,7 +373,7 @@ Matching coefficients with the critical damping equation, we get:
 f_constraint = 2(F_smooth - F_quantum)
 ```
 
-✅ **Derived!**
+**Derived!**
 
 #### Method 2: PID Control Theory
 
@@ -395,7 +394,7 @@ Therefore:
 f_constraint = 2(F_smooth - F_quantum)
 ```
 
-✅ **Derived from optimal control!**
+**Derived from optimal control!**
 
 #### Method 3: Lagrange Multiplier
 
@@ -413,7 +412,7 @@ f_constraint = 2(F_smooth - F_quantum)
 
 Factor of 2 emerges from second-order nature of position dynamics.
 
-✅ **Derived from variational calculus!**
+**Derived from variational calculus!**
 
 #### Physical Interpretation
 
@@ -443,9 +442,9 @@ f_constraint = 2·(F_smooth - F_quantum)
 #### Verification
 
 **Limiting cases**:
-- F_quantum = F_smooth → f_constraint = 0 ✓ (no correction needed)
-- F_quantum < F_smooth → f_constraint > 0 ✓ (add positive force)
-- F_quantum > F_smooth → f_constraint < 0 ✓ (add negative force)
+- F_quantum = F_smooth → f_constraint = 0 (no correction needed)
+- F_quantum < F_smooth → f_constraint > 0 (add positive force)
+- F_quantum > F_smooth → f_constraint < 0 (add negative force)
 
 **Total force**:
 ```
@@ -463,13 +462,13 @@ f_constraint = 2(F_smooth - F_quantum)
 ```
 
 **Three independent derivations confirm**:
-1. ✅ Critical damping: d²ε/dt² + 2ω₀·dε/dt + ω₀²·ε = 0
-2. ✅ Optimal control: PID gain Kp = 2
-3. ✅ Lagrange multiplier: From second-order constraint
+1. Critical damping: d²ε/dt² + 2ω₀·dε/dt + ω₀²·ε = 0
+2. Optimal control: PID gain Kp = 2
+3. Lagrange multiplier: From second-order constraint
 
 **Factor of 2 is NOT empirical** - it's the theoretically correct value for critical damping!
 
-**Status**: ✅ **Rigorously derived from first principles**
+**Status**: **Rigorously derived from first principles**
 
 ---
 
@@ -568,21 +567,20 @@ FieldStrategy             # External fields
 RTCNEOEngine              # Main simulation loop
 ```
 
-### What's Correct ✅
-
+### What's Correct
 **1. Quantum Propagation**
 ```python
 # Line ~974-990
 U = expm(-1j * H * dt)
 nuclear_density = U @ nuclear_density @ U.conj().T
 ```
-✅ Proper unitary evolution
+Proper unitary evolution
 
 **2. No Energy Minimization**
 ```python
 # Nowhere in code is energy minimized!
 ```
-✅ Preserves quantum character (excited states, superpositions)
+Preserves quantum character (excited states, superpositions)
 
 **3. Constraint as Potential**
 ```python
@@ -590,14 +588,14 @@ nuclear_density = U @ nuclear_density @ U.conj().T
 if constraint_force != 0:
     h += constraint_force * self.position_operator
 ```
-✅ Adds linear potential, doesn't minimize
+Adds linear potential, doesn't minimize
 
 **4. Position Extraction**
 ```python
 # Line ~1058
 position = np.real(np.trace(nuclear_density @ position_operator))
 ```
-✅ Correct expectation value
+Correct expectation value
 
 **5. Smoothing Mechanism**
 ```python
@@ -608,23 +606,22 @@ self.f_smooth_current = (
     (1.0 - alpha) * f_quantum
 )
 ```
-✅ Exponential smoothing filter
+Exponential smoothing filter
 
 **6. Constraint Force Calculation**
 ```python
 # Line ~735
 constraint_force = 2.0 * (self.f_smooth_current - f_quantum)
 ```
-✅ Feedback control mechanism with critical damping (factor of 2 now derived!)
+Feedback control mechanism with critical damping (factor of 2 now derived!)
 
 **7. External Field Support**
 ```python
 # Lines 236-349: FieldStrategy classes
 ```
-✅ Implements constant, pulsed, ramped fields
+Implements constant, pulsed, ramped fields
 
-### Critical Approximation ⚠️
-
+### Critical Approximation 
 **Static Fock Matrix**
 
 ```python
@@ -658,13 +655,13 @@ Cost: O(N⁴) per step instead of O(N³)
 
 ### What Needs Theoretical Work ?
 
-**1. ✅ Constraint Force Formula - COMPLETED**
+**1. Constraint Force Formula - COMPLETED**
 ```python
 f_constraint = 2.0 * (f_smooth - f_quantum)
 ```
-- ✅ Factor of 2: **Derived from critical damping theory**
-- ✅ See Section 5 ("The Constraint Mechanism") for complete derivation
-- ✅ Three independent derivations confirm the result
+- Factor of 2: **Derived from critical damping theory**
+- See Section 5 ("The Constraint Mechanism") for complete derivation
+- Three independent derivations confirm the result
 
 **2. Smoothing Timescale**
 ```python
@@ -702,13 +699,13 @@ But true Ĥₚ(t) depends on ρₑ(t):
 
 ### When Is It Valid?
 
-✅ **Good approximation when**:
+**Good approximation when**:
 - Short simulation time (< 100 fs)
 - Small amplitude motion
 - Weak electron-proton coupling
 - Electronic state remains similar to t=0
 
-❌ **Poor approximation when**:
+**Poor approximation when**:
 - Long time dynamics
 - Large amplitude proton transfer
 - Strong coupling regime
@@ -949,30 +946,29 @@ def calculate_energy_components(rho_p, H_0, f_constraint, V_ext):
 ### For Immediate Use
 
 **Current implementation is suitable for**:
-- ✅ Method development and testing
-- ✅ Short time dynamics (< 100 fs)
-- ✅ Small amplitude motion
-- ✅ Proof-of-concept studies
-- ✅ Benchmarking against other methods
-- ✅ Excited state dynamics (preserves quantum character!)
+- Method development and testing
+- Short time dynamics (< 100 fs)
+- Small amplitude motion
+- Proof-of-concept studies
+- Benchmarking against other methods
+- Excited state dynamics (preserves quantum character!)
 
 **Document clearly**:
-- ⚠️ Static Fock approximation used
-- ⚠️ Valid for short time, small amplitude
-- ✅ Constraint force formula derived (critical damping)
-- ⚠️ Energy not conserved (time-dependent H)
+- Static Fock approximation used
+- Valid for short time, small amplitude
+- Constraint force formula derived (critical damping)
+- Energy not conserved (time-dependent H)
 
 ### For Theoretical Development
 
-**Priority 1: ✅ Derive constraint force formula - COMPLETED**
+**Priority 1: Derive constraint force formula - COMPLETED**
 
-✅ **Derivation complete** (see Section 5 - "The Constraint Mechanism"):
-1. ✅ **Critical damping theory**: d²ε/dt² + 2ω₀·dε/dt + ω₀²·ε = 0
-2. ✅ **Optimal control (PID)**: Proportional gain Kp = 2 for critical damping
-3. ✅ **Lagrange multiplier**: Emerges from second-order constraint dynamics
+**Derivation complete** (see Section 5 - "The Constraint Mechanism"):
+1. **Critical damping theory**: d²ε/dt² + 2ω₀·dε/dt + ω₀²·ε = 0
+2. **Optimal control (PID)**: Proportional gain Kp = 2 for critical damping
+3. **Lagrange multiplier**: Emerges from second-order constraint dynamics
 
-Result: `f_constraint = 2(F_smooth - F_quantum)` is **rigorously justified** ✓
-
+Result: `f_constraint = 2(F_smooth - F_quantum)` is **rigorously justified**
 **Priority 2: Address static Fock approximation**
 
 Options:
@@ -1122,7 +1118,7 @@ A **synthesis** of:
 
 **Not in literature** as named, but theoretically sound concept.
 
-### Core Mechanism (CORRECT ✅)
+### Core Mechanism (CORRECT )
 
 ```
 H(t) = H₀ + f_constraint(t)·R̂ + V_ext(t)·R̂
@@ -1134,28 +1130,25 @@ where f_constraint guides quantum evolution toward smooth trajectory
 
 ### Strengths
 
-✅ Preserves quantum character (excited states, superpositions)
-✅ Extracts smooth classical trajectory
-✅ Implements feedback control mechanism
-✅ Supports external driving fields
-✅ Unitary quantum evolution
+Preserves quantum character (excited states, superpositions)
+Extracts smooth classical trajectory
+Implements feedback control mechanism
+Supports external driving fields
+Unitary quantum evolution
 
 ### Limitations
 
-⚠️ Static Fock approximation (major)
-✅ Constraint formula: **NOW DERIVED** from critical damping theory
-⚠️ Energy not conserved (time-dependent H)
-⚠️ Requires external field for symmetric systems
+Static Fock approximation (major)
+Constraint formula: **NOW DERIVED** from critical damping theory
+Energy not conserved (time-dependent H)
+Requires external field for symmetric systems
 
 ### Verdict
 
 **Theoretically sound core, with known approximations.**
 
 Ready for:
-- Method development ✓
-- Proof-of-concept ✓
-- Short-time dynamics ✓
-
+- Method development- Proof-of-concept- Short-time dynamics
 Needs work for:
 - Rigorous publication
 - Long-time dynamics
@@ -1163,7 +1156,7 @@ Needs work for:
 
 ### Next Steps
 
-1. ✅ ~~Derive constraint force formula rigorously~~ **COMPLETED**
+1. ~~Derive constraint force formula rigorously~~ **COMPLETED**
 2. Implement or document Fock approximation
 3. Add energy tracking
 4. Benchmark thoroughly
